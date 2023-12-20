@@ -1,19 +1,24 @@
 package net.ausiasmarch.foxforumserver.config;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 public class CorsConfig {
 
-    public WebMvcConfigurer mvcConfigurer() {
+    @Bean
+    public WebMvcConfigurer corsConfigurer() {
         return new WebMvcConfigurer() {
             @Override
-            public void addCorsMappings(org.springframework.web.servlet.config.annotation.CorsRegistry registry) {
-                registry.addMapping("/media/**").allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS").allowedOrigins("*")
-                        .allowedHeaders("*");
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/media/**")
+                        .allowedOrigins("http://localhost:4200") // Reemplaza con el origen de tu aplicación Angular
+                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                        .allowedHeaders("*")
+                        .allowCredentials(true); // Si estás manejando autenticación con credenciales
             }
         };
     }
-    
 }
